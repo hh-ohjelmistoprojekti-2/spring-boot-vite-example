@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { beforeAll, afterEach, afterAll } from "vitest";
 import { setupServer } from "msw/node";
-import { http, HttpResponse } from "msw";
 
 // Create a mock server
 export const server = setupServer();
