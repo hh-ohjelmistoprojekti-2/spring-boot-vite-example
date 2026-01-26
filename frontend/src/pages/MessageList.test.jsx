@@ -1,0 +1,163 @@
+import { describe, it, expect, beforeEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { http, HttpResponse } from "msw";
+import { server } from "../test/setup";
+import MessageList from "./MessageList";
+
+// Helper function to render component with router
+function renderWithRouter(component) {
+  return render(<BrowserRouter>{component}</BrowserRouter>);
+}
+
+describe("MessageList", () => {
+  beforeEach(() => {
+    // Reset handlers before each test
+    server.resetHandlers();
+  });
+
+  it("renders the Messages heading", () => {
+    // Mock empty responses
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json([]);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(null, { status: 401 });
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+    expect(screen.getByRole("heading", { name: /messages/i })).toBeInTheDocument();
+  });
+
+  it("displays messages from API", async () => {
+    const mockMessages = [
+      { id: 1, content: "Hello World", user: { username: "user1" } },
+      { id: 2, content: "Test Message", user: { username: "user2" } },
+    ];
+
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json(mockMessages);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(null, { status: 401 });
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/user1: Hello World/i)).toBeInTheDocument();
+      expect(screen.getByText(/user2: Test Message/i)).toBeInTheDocument();
+    });
+  });
+
+  it("displays message without username when user is null", async () => {
+    const mockMessages = [
+      { id: 1, content: "Anonymous message", user: null },
+    ];
+
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json(mockMessages);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(null, { status: 401 });
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/: Anonymous message/i)).toBeInTheDocument();
+    });
+  });
+
+  it("shows 'Add a message' button when user is authenticated", async () => {
+    const mockUser = { id: 1, username: "testuser" };
+
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json([]);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(mockUser);
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+
+    await waitFor(() => {
+      expect(screen.getByRole("link", { name: /add a message/i })).toBeInTheDocument();
+    });
+  });
+
+  it("shows login and register links when user is not authenticated", async () => {
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json([]);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(null, { status: 401 });
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+
+    await waitFor(() => {
+      expect(screen.getByRole("link", { name: /register/i })).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: /login/i })).toBeInTheDocument();
+      expect(screen.getByText(/to add messages/i)).toBeInTheDocument();
+    });
+  });
+
+  it("handles empty message list", async () => {
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json([]);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(null, { status: 401 });
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: /messages/i })).toBeInTheDocument();
+    });
+
+    // Should not render any list items
+    const listItems = screen.queryAllByRole("listitem");
+    expect(listItems).toHaveLength(0);
+  });
+
+  it("renders multiple messages correctly", async () => {
+    const mockMessages = [
+      { id: 1, content: "First message", user: { username: "alice" } },
+      { id: 2, content: "Second message", user: { username: "bob" } },
+      { id: 3, content: "Third message", user: { username: "charlie" } },
+    ];
+
+    server.use(
+      http.get("http://localhost:8080/api/messages", () => {
+        return HttpResponse.json(mockMessages);
+      }),
+      http.get("http://localhost:8080/api/users/current", () => {
+        return HttpResponse.json(null, { status: 401 });
+      })
+    );
+
+    renderWithRouter(<MessageList />);
+
+    await waitFor(() => {
+      const listItems = screen.getAllByRole("listitem");
+      expect(listItems).toHaveLength(3);
+      expect(screen.getByText(/alice: First message/i)).toBeInTheDocument();
+      expect(screen.getByText(/bob: Second message/i)).toBeInTheDocument();
+      expect(screen.getByText(/charlie: Third message/i)).toBeInTheDocument();
+    });
+  });
+});
