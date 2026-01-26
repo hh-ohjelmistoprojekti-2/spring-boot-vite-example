@@ -1,7 +1,7 @@
 # 🗨️ Messenger
 
-[![CI](https://github.com/Kaltsoon/spring-boot-vite-example/actions/workflows/ci.yml/badge.svg)](https://github.com/Kaltsoon/spring-boot-vite-example/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/Kaltsoon/spring-boot-vite-example/graph/badge.svg?token=FU2MFP4JLH)](https://codecov.io/gh/Kaltsoon/spring-boot-vite-example)
+[![CI](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/actions/workflows/ci.yml/badge.svg)](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/hh-ohjelmistoprojekti-2/spring-boot-vite-example/graph/badge.svg?token=FU2MFP4JLH)](https://codecov.io/gh/hh-ohjelmistoprojekti-2/spring-boot-vite-example)
 
 _Messenger_ is a simple messaging application where registered users can post messages. The project acts as an example project for a single-page application with authentication. It is implemented with Spring Boot and React.
 
