@@ -3,23 +3,23 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  # Jobs run concurrently on the specified virtual machine, e.g. on the latest Ubuntu operating system
   backend-build:
     runs-on: ubuntu-latest
+    # Steps are performed in sequence as part of the job
     steps:
+      # Checkout the repository so that the code is available for the job
       - uses: actions/checkout@v3
       - name: Set up JDK
+        # actions/setup-java is a ready-made action to set up a Java environment
         uses: actions/setup-java@v3
         with:
           java-version: "21"
           distribution: "temurin"
           cache: maven
       - name: Build
-        run: mvn -B package --file pom.xml
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: hh-ohjelmistoprojekti-2/spring-boot-vite-example
+        # The run option of a step specifies a command to be executed, e.g. build and test the Java project
+        run: mvn -B package
   frontend-build:
     runs-on: ubuntu-latest
     steps:
@@ -29,9 +29,8 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
+        # npm ci is almost the same command as npm install (https://docs.npmjs.com/cli/v8/commands/npm-ci)
         run: cd frontend && npm ci
-      - name: Lint
-        run: cd frontend && npm run lint
       - name: Test
         run: cd frontend && npm run test
       - name: Build

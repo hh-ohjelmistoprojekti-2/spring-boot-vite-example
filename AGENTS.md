@@ -56,6 +56,12 @@ All frontend-related commands must be executed from the `frontend` folder.
   npm run dev
   ```
 
+- Run the frontend tests:
+
+  ```bash
+  npm run test
+  ```
+
 - Run ESlint codestyle checks:
 
   ```bash
@@ -95,5 +101,6 @@ All pull requests are expected to pass the continuous integration checks defined
 
 - Ensure backend and frontend commands are run in their correct directories.
 - Do not commit directly to the main branch.
+- Do not add unnecessary comments to the code.
 - Keep changes focused on the feature described by the branch name.
 - Follow existing project conventions and structure when adding or modifying code.

@@ -1,7 +1,6 @@
 # 🗨️ Messenger
 
 [![CI](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/actions/workflows/ci.yml/badge.svg)](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/hh-ohjelmistoprojekti-2/spring-boot-vite-example/graph/badge.svg?token=FU2MFP4JLH)](https://codecov.io/gh/hh-ohjelmistoprojekti-2/spring-boot-vite-example)
 
 _Messenger_ is a simple messaging application where registered users can post messages. The project acts as an example project for a single-page application with authentication. It is implemented with Spring Boot and React.
 
@@ -66,6 +65,10 @@ You can start the frontend application by performing the following steps in the 
 1. Install the dependencies by running the `npm install` command
 2. Start the Vite development server by running the `npm run dev` command
 3. Once the development server has started, the application is accessible at <http://localhost:5173>
+
+#### Running tests
+
+You can run the frontend tests by running the `npm run test` command in the `frontend` folder.
 
 ## REST API
 
