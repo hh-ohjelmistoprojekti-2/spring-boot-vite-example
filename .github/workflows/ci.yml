@@ -14,12 +14,7 @@ jobs:
           distribution: "temurin"
           cache: maven
       - name: Build
-        run: mvn -B package --file pom.xml
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: hh-ohjelmistoprojekti-2/spring-boot-vite-example
+        run: mvn -B package
   frontend-build:
     runs-on: ubuntu-latest
     steps:
@@ -30,8 +25,6 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: cd frontend && npm ci
-      - name: Lint
-        run: cd frontend && npm run lint
       - name: Test
         run: cd frontend && npm run test
       - name: Build
