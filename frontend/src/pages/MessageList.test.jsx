@@ -5,22 +5,18 @@ import { http, HttpResponse } from "msw";
 import { server } from "../test/setup";
 import MessageList from "./MessageList";
 
-// API base URL - should match the VITE_API_URL in .env
 const API_BASE_URL = "http://localhost:8080";
 
-// Helper function to render component with router
 function renderWithRouter(component) {
   return render(<BrowserRouter>{component}</BrowserRouter>);
 }
 
 describe("MessageList", () => {
   beforeEach(() => {
-    // Reset handlers before each test
     server.resetHandlers();
   });
 
   it("renders the Messages heading", () => {
-    // Mock empty responses
     server.use(
       http.get(`${API_BASE_URL}/api/messages`, () => {
         return HttpResponse.json([]);
@@ -74,7 +70,6 @@ describe("MessageList", () => {
     renderWithRouter(<MessageList />);
 
     await waitFor(() => {
-      // When user is null, message.user?.username is undefined which renders as empty string
       expect(screen.getByText(/Anonymous message/i)).toBeInTheDocument();
     });
   });
@@ -133,7 +128,6 @@ describe("MessageList", () => {
       expect(screen.getByRole("heading", { name: /messages/i })).toBeInTheDocument();
     });
 
-    // Should not render any list items
     const listItems = screen.queryAllByRole("listitem");
     expect(listItems).toHaveLength(0);
   });
