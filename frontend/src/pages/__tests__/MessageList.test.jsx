@@ -1,21 +1,23 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { http, HttpResponse } from "msw";
-import { server } from "../../test/setup";
+import { setupServer } from "msw/node";
 import MessageList from "../MessageList";
 
 const API_BASE_URL = "http://localhost:8080";
+
+const server = setupServer();
+
+beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 function renderWithRouter(component) {
   return render(<BrowserRouter>{component}</BrowserRouter>);
 }
 
 describe("MessageList", () => {
-  beforeEach(() => {
-    server.resetHandlers();
-  });
-
   it("renders the Messages heading", () => {
     server.use(
       http.get(`${API_BASE_URL}/api/messages`, () => {
