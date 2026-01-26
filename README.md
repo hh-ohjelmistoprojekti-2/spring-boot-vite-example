@@ -1,4 +1,4 @@
-# Messenger
+# 🗨️ Messenger
 
 [![CI](https://github.com/Kaltsoon/spring-boot-vite-example/actions/workflows/ci.yml/badge.svg)](https://github.com/Kaltsoon/spring-boot-vite-example/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Kaltsoon/spring-boot-vite-example/graph/badge.svg?token=FU2MFP4JLH)](https://codecov.io/gh/Kaltsoon/spring-boot-vite-example)
