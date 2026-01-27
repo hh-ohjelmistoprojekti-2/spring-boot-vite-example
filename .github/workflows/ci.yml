@@ -1,5 +1,6 @@
 name: CI
 
+# The on option specifies, which repository actions trigger this workflow, e.g. pushing and opening a pull request
 on: [push, pull_request]
 
 jobs:
