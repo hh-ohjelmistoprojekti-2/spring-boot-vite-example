@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -28,7 +28,7 @@ public class JwtService {
 	public AccessTokenPayloadDto getAccessToken(String username) {
 		Instant expiresAt = Instant.now().plusMillis(EXPIRATION_TIME);
 
-		String accessToken = Jwts.builder().setSubject(username).setExpiration(Date.from(expiresAt))
+		String accessToken = Jwts.builder().subject(username).expiration(Date.from(expiresAt))
 				.signWith(getSigningKey())
 				.compact();
 
@@ -55,12 +55,12 @@ public class JwtService {
 		}
 	}
 
-	private Key getSigningKey() {
+	private SecretKey getSigningKey() {
 		byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
 	private JwtParser getJwtParser() {
-		return Jwts.parserBuilder().setSigningKey(getSigningKey()).build();
+		return Jwts.parser().verifyWith(getSigningKey()).build();
 	}
 }
