@@ -42,12 +42,11 @@ public class JwtService {
 			return null;
 		}
 
-		JwtParser parser = getJwtParser();
-
 		try {
-			String user = parser
-					.parseClaimsJws(authorizationHeaderValue.replace(PREFIX, ""))
-					.getBody().getSubject();
+			String user = getJwtParser()
+					.parseSignedClaims(authorizationHeaderValue.replace(PREFIX, ""))
+					.getPayload()
+					.getSubject();
 
 			return user;
 		} catch (Exception e) {
