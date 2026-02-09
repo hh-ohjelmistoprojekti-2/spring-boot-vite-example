@@ -1,7 +1,7 @@
-import { apiClient, setAccessToken, removeAccessToken } from "./api";
+import { api, setAccessToken, removeAccessToken } from "./api";
 
 export function login(credentials) {
-  return apiClient.post("/api/auth/login", credentials).then((response) => {
+  return api.post("/api/auth/login", credentials).then((response) => {
     if (response.data.accessToken) {
       setAccessToken(response.data.accessToken);
     }
@@ -15,11 +15,11 @@ export function logout() {
 }
 
 export function createUser(user) {
-  return apiClient.post("/api/users", user).then((response) => response.data);
+  return api.post("/api/users", user).then((response) => response.data);
 }
 
 export function getAuthenticatedUser() {
-  return apiClient
+  return api
     .get("/api/users/current")
     .then((response) => response.data)
     .catch((error) => {

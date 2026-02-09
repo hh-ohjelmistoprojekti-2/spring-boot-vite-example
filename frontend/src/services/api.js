@@ -15,11 +15,11 @@ export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
-export const apiClient = axios.create({
+export const api = axios.create({
   baseURL: API_URL,
 });
 
-apiClient.interceptors.request.use((config) => {
+api.interceptors.request.use((config) => {
   const token = getAccessToken();
 
   if (token) {
