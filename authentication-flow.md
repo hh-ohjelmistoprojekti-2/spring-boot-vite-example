@@ -161,7 +161,7 @@ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundEx
 > [!IMPORTANT]
 > JWT tokens are signed using a secret string at least 48 characters long. Each developer can create, e.g. a `application-local.properties` file under `src/main/resources` folder with a line `auth.jwt-secret=THE_RANDOM_48_CHARACTERS_LONG_STRING`. Add this file to the [.gitignore](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/blob/main/.gitignore#L35)! Then, in the `application.properties` file, you can [import configuration](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/blob/main/src/main/resources/application.properties#L6) from the `application-local.properties` file.
 
-File: [`src/main/java/fi/haagahelia/messenger/service/JwtService.java`](src/main/java/fi/messenger/service/JwtService.java)
+File: [`src/main/java/fi/haagahelia/messenger/service/JwtService.java`](src/main/java/fi/haagahelia/messenger/service/JwtService.java)
 
 The `JwtService` generates JWT tokens:
 
