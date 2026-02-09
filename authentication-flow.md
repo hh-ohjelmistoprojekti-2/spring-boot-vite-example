@@ -248,8 +248,7 @@ The `getAuthUser` method validates and extracts the username from a JWT token:
 1. Extracts the `Authorization` header value
 2. Returns null if no authorization header exists
 3. Parses the JWT token
-   - Attempts to remove the "Bearer " prefix (using `.replace(PREFIX, "")`)
-   - If no prefix exists, the replace has no effect and the raw token is parsed
+   - Removes the "Bearer " prefix (using `.replace(PREFIX, "")`)
    - Verifies the signature using the signing key
    - Extracts the subject (username) from the token
 4. Returns null if token is invalid or expired (caught in the exception handler)
