@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/messages
+content-type: application/json
+authorization: Bearer <PUT_TOKEN_HERE>
+
+{
+    "content": "hello from rest client!"
+}
