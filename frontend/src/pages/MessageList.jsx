@@ -26,7 +26,7 @@ export default function MessageList() {
         <ul>
           {messages.map((message) => (
             <li key={message.id}>
-              {message.user?.username}: {message.content}
+              {message.user?.username} {new Date(message.createdAt).toLocaleDateString('fi-FI')}: {message.content}
             </li>
           ))}
         </ul>
