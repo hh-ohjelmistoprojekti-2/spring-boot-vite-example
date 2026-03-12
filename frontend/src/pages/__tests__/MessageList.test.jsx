@@ -34,8 +34,8 @@ describe("MessageList", () => {
 
   it("displays messages from API", async () => {
     const mockMessages = [
-      { id: 1, content: "Hello World", user: { username: "user1" } },
-      { id: 2, content: "Test Message", user: { username: "user2" } },
+      { id: 1, content: "Hello World", createdAt: "2024-10-15T10:30:00.000Z", user: { username: "user1" } },
+      { id: 2, content: "Test Message", createdAt: "2024-11-16T12:45:00.000Z", user: { username: "user2" } },
     ];
 
     server.use(
@@ -50,14 +50,14 @@ describe("MessageList", () => {
     renderWithRouter(<MessageList />);
 
     await waitFor(() => {
-      expect(screen.getByText(/user1: Hello World/i)).toBeInTheDocument();
-      expect(screen.getByText(/user2: Test Message/i)).toBeInTheDocument();
+      expect(screen.getByText("user1 15.10.2024: Hello World")).toBeInTheDocument();
+      expect(screen.getByText("user2 16.11.2024: Test Message")).toBeInTheDocument();
     });
   });
 
   it("displays message content when user is null", async () => {
     const mockMessages = [
-      { id: 1, content: "Anonymous message", user: null },
+      { id: 1, content: "Anonymous message", createdAt: "2024-12-17T08:15:00.000Z", user: null },
     ];
 
     server.use(
@@ -72,7 +72,7 @@ describe("MessageList", () => {
     renderWithRouter(<MessageList />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Anonymous message/i)).toBeInTheDocument();
+      expect(screen.getByText(/17\.12\.2024: Anonymous message/i)).toBeInTheDocument();
     });
   });
 
@@ -136,9 +136,9 @@ describe("MessageList", () => {
 
   it("renders multiple messages correctly", async () => {
     const mockMessages = [
-      { id: 1, content: "First message", user: { username: "alice" } },
-      { id: 2, content: "Second message", user: { username: "bob" } },
-      { id: 3, content: "Third message", user: { username: "charlie" } },
+      { id: 1, content: "First message", createdAt: "2024-09-20T09:00:00.000Z", user: { username: "alice" } },
+      { id: 2, content: "Second message", createdAt: "2024-10-21T10:00:00.000Z", user: { username: "bob" } },
+      { id: 3, content: "Third message", createdAt: "2024-11-22T11:00:00.000Z", user: { username: "charlie" } },
     ];
 
     server.use(
@@ -155,9 +155,9 @@ describe("MessageList", () => {
     await waitFor(() => {
       const listItems = screen.getAllByRole("listitem");
       expect(listItems).toHaveLength(3);
-      expect(screen.getByText(/alice: First message/i)).toBeInTheDocument();
-      expect(screen.getByText(/bob: Second message/i)).toBeInTheDocument();
-      expect(screen.getByText(/charlie: Third message/i)).toBeInTheDocument();
+      expect(screen.getByText("alice 20.9.2024: First message")).toBeInTheDocument();
+      expect(screen.getByText("bob 21.10.2024: Second message")).toBeInTheDocument();
+      expect(screen.getByText("charlie 22.11.2024: Third message")).toBeInTheDocument();
     });
   });
 });
