@@ -1,6 +1,5 @@
 package fi.haagahelia.messenger.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,11 +25,13 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 @Tag(name = "Authentication", description = "Operations for authentication")
 public class AuthRestController {
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    public AuthRestController(JwtService jwtService, AuthenticationManager authenticationManager) {
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
 
     @Operation(summary = "Authenticate a user", description = "Authenticates the user and returns an access token upon a successful authentication")
     @PostMapping("/login")

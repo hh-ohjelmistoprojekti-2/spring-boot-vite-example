@@ -2,7 +2,6 @@ package fi.haagahelia.messenger.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,11 +29,13 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 @Tag(name = "Message", description = "Operations for accessing and managing the messages")
 public class MessageRestController {
-	@Autowired
-	private MessageRepository messageRepository;
+	private final MessageRepository messageRepository;
+	private final UserService userService;
 
-	@Autowired
-	private UserService userService;
+	public MessageRestController(MessageRepository messageRepository, UserService userService) {
+		this.messageRepository = messageRepository;
+		this.userService = userService;
+	}
 
 	@Operation(
         summary = "Get all messages",

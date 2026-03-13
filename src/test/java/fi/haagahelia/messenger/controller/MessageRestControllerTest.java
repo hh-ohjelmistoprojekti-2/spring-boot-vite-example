@@ -30,24 +30,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class MessageRestControllerTest {
-    @Autowired
-    MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final MockMvc mockMvc;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private User authenticatedUser;
+    private String authorizationHeader;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    JwtService jwtService;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    ObjectMapper mapper = new ObjectMapper();
-    User authenticatedUser;
-    String authorizationHeader;
+    public MessageRestControllerTest(MessageRepository messageRepository, UserRepository userRepository,
+            UserService userService, JwtService jwtService, MockMvc mockMvc) {
+        this.messageRepository = messageRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.jwtService = jwtService;
+        this.mockMvc = mockMvc;
+    }
 
     @BeforeEach
     void setUp() throws Exception {
