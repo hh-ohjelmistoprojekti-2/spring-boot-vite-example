@@ -33,6 +33,8 @@ jobs:
         # npm ci is almost the same command as npm install (https://docs.npmjs.com/cli/v8/commands/npm-ci)
         run: cd frontend && npm ci
       - name: Test
+        # IMPORTANT! move to correct folder before executing a command
+        # In this case, the command should be executed in the frontend folder
         run: cd frontend && npm run test
       - name: Build
         run: cd frontend && npm run build
