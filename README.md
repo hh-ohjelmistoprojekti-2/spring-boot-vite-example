@@ -2,30 +2,40 @@
 
 [![CI](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/actions/workflows/ci.yml/badge.svg)](https://github.com/hh-ohjelmistoprojekti-2/spring-boot-vite-example/actions/workflows/ci.yml)
 
-_Messenger_ is a simple messaging application where registered users can post messages. The project acts as an example project for a single-page application with authentication. It is implemented with Spring Boot and React.
+_Messenger_ is a simple messaging application where registered users can post messages and see other users' posted messages. The project acts as an example project for a single-page application with authentication. It is implemented with Spring Boot and React.
 
-## Architecture overview
+## Data model
 
-The project architecture consists of the _backend application_ and the _frontend application_. The backend application is a RESTful web service implemented with [Spring Boot](https://spring.io/projects/spring-boot). It provides REST API endpoints for the frontend application. The backend application's authentication is implemented with a stateless [JWT token](https://jwt.io/introduction) authentication. The backend application uses [H2 Database Engine](https://www.h2database.com/html/main.html) as a development environment database and [PostgreSQL](https://www.postgresql.org/) as a production environment database.
+The application's data model consists of the following entities:
 
-The frontend application is implemented with [React](https://react.dev/). The user interface is implemented with [Material UI](https://mui.com/). The [Vite](https://vitejs.dev/) build tool is used to develop and build the frontend application.
+- `User`: represents a registered user with a unique username, a hashed password, and a role. A user can have many messages.
+- `Message`: represents a message posted by a user, containing text content and a creation timestamp. Each message belongs to one user.
 
 ```mermaid
-flowchart LR
-    backend[Spring Boot Backend]
-    database[(PostgreSQL Database)]
-    frontend[React Frontend]
-    backend-- Database queries -->database
-    frontend-- REST API requests --> backend
+erDiagram
+    User {
+        Long id PK
+        String username
+        String passwordHash
+        String role
+    }
+    Message {
+        Long id PK
+        Instant createdAt
+        String content
+    }
+    User ||--o{ Message : "posts"
 ```
 
 ## Developer guide
 
+The project architecture consists of the _backend application_ and the _frontend application_. The backend application contains a REST API implemented with Java and [Spring Boot](https://spring.io/projects/spring-boot). The backend application uses [H2 Database Engine](https://www.h2database.com/html/main.html) as a development environment database and [PostgreSQL](https://www.postgresql.org/) as a production environment database. The frontend application is implemented with JavaScript and [React](https://react.dev/). The user interface is implemented with [Material UI](https://mui.com/). The [Vite](https://vitejs.dev/) build tool is used to develop and build the frontend application.
+
 ### Backend
 
-The backend application requires Java 17 as a minimum version.
+The backend application requires Java version 17 as a minimum version.
 
-You need to perform the following steps to setup the backend application:
+You need to perform the following steps to set up the backend application:
 
 1. Add a `application-local.properties` file to the `src/main/resources` folder (same folder that has the `application.properties` file) with the following content:
 
@@ -58,7 +68,7 @@ By setting the `SPRING_PROFILES_ACTIVE` environment variable value as `productio
 
 ### Frontend
 
-The frontend application requires Node.js 18 as a minimum version.
+The frontend application requires Node.js version 18 as a minimum version.
 
 You can start the frontend application by performing the following steps in the `frontend` folder:
 
@@ -73,3 +83,7 @@ You can run the frontend tests by running the `npm run test` command in the `fro
 ## REST API
 
 The REST API has [Swagger documentation](http://localhost:8080/swagger-ui/index.html) (accessible when the backend server is running).
+
+## License
+
+Messenger is licensed under the [MIT license](./LICENSE).
