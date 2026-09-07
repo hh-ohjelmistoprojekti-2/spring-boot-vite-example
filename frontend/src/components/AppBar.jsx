@@ -88,7 +88,7 @@ export default function AppBar({ user }) {
                   to="/Register"
                   sx={{ marginRight: 1 }}
                 >
-                  Registr
+                  Register
                 </Button>
               </>
             ) : (
