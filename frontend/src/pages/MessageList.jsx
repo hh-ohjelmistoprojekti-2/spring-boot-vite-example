@@ -9,14 +9,16 @@ function getCreationTimeLabel(message) {
   const ageInMilliseconds = new Date() - new Date(message.createdAt);
   const ageInSeconds = ageInMilliseconds / 1000;
   const oneHourInSeconds = 60 * 60;
-  const oneDayInSeconds = oneHourInSeconds * 24
+  const oneDayInSeconds = oneHourInSeconds * 24;
 
   if (ageInSeconds < 60) {
     return `Added just now`;
+  } else if (ageInSeconds < oneHourInSeconds) {
+    return `Added ${Math.floor(ageInSeconds / 60)} minutes ago`;
   } else if (ageInSeconds < oneDayInSeconds) {
     return `Added ${Math.floor(ageInSeconds / oneHourInSeconds)} hours ago`;
   } else {
-    return `Added on ${new Date()}`;
+    return `Added on ${new Date().toLocaleDateString("fi")}`;
   }
 }
 
@@ -41,7 +43,8 @@ export default function MessageList() {
         <ul>
           {messages.map((message) => (
             <li key={message.id}>
-              {message.user?.username}: {message.content} · {getCreationTimeLabel(message)}
+              {message.user?.username}: {message.content} ·{" "}
+              {getCreationTimeLabel(message)}
             </li>
           ))}
         </ul>
