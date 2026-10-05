@@ -155,7 +155,7 @@ describe("MessageList", () => {
     await waitFor(() => {
       const listItems = screen.getAllByRole("listitem");
       expect(listItems).toHaveLength(3);
-      expect(screen.getByText(/alice: First message/i)).toBeInTheDocument();
+      expect(screen.getByText(/kalle: First message/i)).toBeInTheDocument();
       expect(screen.getByText(/bob: Second message/i)).toBeInTheDocument();
       expect(screen.getByText(/charlie: Third message/i)).toBeInTheDocument();
     });
