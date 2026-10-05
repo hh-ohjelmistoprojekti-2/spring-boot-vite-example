@@ -5,6 +5,21 @@ import { Link as RouterLink } from "react-router-dom";
 import { getAllMessages } from "../services/message";
 import { getAuthenticatedUser } from "../services/user";
 
+function getCreationTimeLabel(message) {
+  const ageInMilliseconds = new Date() - new Date(message.createdAt);
+  const ageInSeconds = ageInMilliseconds / 1000;
+  const oneHourInSeconds = 60 * 60;
+  const oneDayInSeconds = oneHourInSeconds * 24
+
+  if (ageInSeconds < 60) {
+    return `Added just now`;
+  } else if (ageInSeconds < oneDayInSeconds) {
+    return `Added ${Math.floor(ageInSeconds / oneHourInSeconds)} hours ago`;
+  } else {
+    return `Added on ${new Date()}`;
+  }
+}
+
 export default function MessageList() {
   const [messages, setMessages] = useState();
   const [user, setUser] = useState();
@@ -26,7 +41,7 @@ export default function MessageList() {
         <ul>
           {messages.map((message) => (
             <li key={message.id}>
-              {message.user?.username}: {message.content}
+              {message.user?.username}: {message.content} · {getCreationTimeLabel(message)}
             </li>
           ))}
         </ul>
