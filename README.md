@@ -52,6 +52,8 @@ Then, you can start the backend application by performing the following steps:
 
 #### Running tests
 
+The backend is tested using REST API integration tests implemented with JUnit.
+
 You can run the backend tests by running the `./mvnw test` command.
 
 #### Running with Docker
@@ -77,6 +79,8 @@ You can start the frontend application by performing the following steps in the 
 3. Once the development server has started, the application is accessible at <http://localhost:5173>
 
 #### Running tests
+
+The frontend is tested using component integrations tests implemented with React Testing Library.
 
 You can run the frontend tests by running the `npm run test` command in the `frontend` folder.
 
