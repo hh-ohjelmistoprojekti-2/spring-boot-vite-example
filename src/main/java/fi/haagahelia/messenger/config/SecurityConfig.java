@@ -32,6 +32,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()).cors(withDefaults())
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .sessionManagement(
                         sessionManagement -> sessionManagement
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -47,7 +48,8 @@ public class SecurityConfig {
                                 antMatcher(HttpMethod.GET, "/configuration/ui"),
                                 antMatcher(HttpMethod.GET, "/swagger-resources/**"),
                                 antMatcher(HttpMethod.GET, "/configuration/security"),
-                                antMatcher(HttpMethod.GET, "/swagger-ui/**"))
+                                antMatcher(HttpMethod.GET, "/swagger-ui/**"),
+                                antMatcher("/h2-console/**"))
                         .permitAll()
                         .anyRequest()
                         .authenticated())
