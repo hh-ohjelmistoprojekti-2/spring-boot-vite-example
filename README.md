@@ -24,7 +24,7 @@ erDiagram
         Instant createdAt
         String content
     }
-    User ||--o{ Message : "posts"
+    User 1--0+ Message : "posts"
 ```
 
 ## Developer guide
